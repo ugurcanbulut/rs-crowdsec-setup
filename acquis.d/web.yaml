@@ -1,0 +1,50 @@
+
+# ==============================================
+# CrowdSec acquisition config for RunCloud
+# Includes: NGINX access & error logs, SSH logs, WordPress logs
+# ==============================================
+
+# -----------------------
+# NGINX access logs
+# -----------------------
+---
+filenames:
+  - /home/*/logs/nginx/*access*.log
+labels:
+  type: nginx
+  log_format: main
+  service: web
+
+# -----------------------
+# NGINX error logs
+# -----------------------
+---
+filenames:
+  - /home/*/logs/nginx/*error*.log
+labels:
+  type: nginx
+  service: web
+  log_format: main
+  log_type: error
+
+# -----------------------
+# SSH authentication logs
+# -----------------------
+---
+filenames:
+  - /var/log/auth.log
+labels:
+  type: syslog
+  service: ssh
+
+# -----------------------
+# PHP-FPM logs (RunCloud default)
+# -----------------------
+---
+filenames:
+  - /home/*/logs/php/*error*.log
+labels:
+  type: php
+  service: fpm
+  log_type: error
+

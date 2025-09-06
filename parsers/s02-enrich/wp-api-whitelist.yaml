@@ -1,0 +1,6 @@
+name: realstack/wordpress-api-whitelist
+description: "Whitelist my custom WordPress REST API endpoints"
+whitelist:
+  reason: "Legitimate REST API calls"
+  expression:
+    - "evt.Parsed.http_path contains '/wp-json/v1'"

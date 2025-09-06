@@ -1,0 +1,42 @@
+filter: "true"
+onsuccess: next_stage
+name: realstack/nginx-logs-runcloud
+description: "Parse nginx-rc access logs with custom log format"
+pattern_syntax:
+  NGCUSTOMUSER: '[a-zA-Z0-9\.\@\-\+_%]*'
+  NGCUSTOMURIPATH: "(?:/[A-Za-z0-9$.+!*'\\(\\)\\{\\},~:;=@\\#%&_\\-]*)+"
+  NGCUSTOMURIPATHPARAM: '%{NGCUSTOMURIPATH}(?:%{URIPARAM})?'
+nodes:
+  # Parse nginx-rc access logs with format: 
+  # '$remote_addr - $remote_user [$time_local] "$request" $status $body_bytes_sent "$http_referer" "$http_user_agent" "$http_x_forwarded_for" "$scheme://$host"'
+  - grok:
+      pattern: '%{IPORHOST:remote_addr} - %{DATA:remote_user} \[%{HTTPDATE:time_local}\] "%{DATA:request}" %{NUMBER:status} %{NUMBER:body_bytes_sent} "%{NOTDQUOTE:http_referer}" "%{NOTDQUOTE:http_user_agent}" "%{NOTDQUOTE:http_x_forwarded_for}" "%{NOTDQUOTE:scheme_host}"'
+      apply_on: message
+      statics:
+        - meta: log_type
+          value: http_access-log
+        - target: evt.StrTime
+          expression: evt.Parsed.time_local
+  # Parse the request field to extract verb and path
+  - grok:
+      pattern: '%{WORD:verb} %{URIPATH:http_path}(?:%{URIPARAM:uri_param})?( HTTP/%{NUMBER:http_version})?'
+      apply_on: request
+
+# Static values for all parsed events
+statics:
+  - meta: service
+    value: http
+  - meta: source_ip
+    expression: "evt.Parsed.remote_addr"
+  - meta: http_status
+    expression: "evt.Parsed.status"
+  - meta: http_path
+    expression: "evt.Parsed.http_path"
+  - meta: http_verb
+    expression: "evt.Parsed.verb"
+  - meta: http_user_agent
+    expression: "evt.Parsed.http_user_agent"
+  - meta: target_fqdn
+    expression: "evt.Parsed.scheme_host"
+  - meta: http_x_forwarded_for
+    expression: "evt.Parsed.http_x_forwarded_for"
