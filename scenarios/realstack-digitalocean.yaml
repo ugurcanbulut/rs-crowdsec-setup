@@ -1,0 +1,18 @@
+type: leaky
+name: realstack/digitalocean-asn
+description: "Block DigitalOcean IPs (ASN 14061)"
+filter: evt.Meta.ASNNumber == "14061" || evt.Meta.ASNOrg == "DIGITALOCEAN-ASN"
+capacity: 1
+leakspeed: 1m
+groupby: "evt.Meta.source_ip"
+blackhole: 2m
+labels:
+  confidence: 1
+  spoofable: 0
+  classification:
+    - attack.T1583.006  # Acquire Infrastructure: Web Services
+    - attack.T1190      # Exploit Public-Facing Application
+  behavior: "http:abuse-cloud-provider"
+  label: "DigitalOcean ASN Abuse"
+  service: http
+  remediation: true

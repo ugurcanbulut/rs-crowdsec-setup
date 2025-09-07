@@ -1,4 +1,3 @@
-
 # ==============================================
 # CrowdSec acquisition config for RunCloud
 # Includes: NGINX access & error logs, SSH logs, WordPress logs
@@ -47,4 +46,3 @@ labels:
   type: php
   service: fpm
   log_type: error
-
