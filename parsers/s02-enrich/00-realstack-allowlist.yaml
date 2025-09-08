@@ -4,6 +4,7 @@ whitelist:
   reason: "Trusted IPs we never want banned"
   ip:
     ## People
+    - "86.126.139.240"    # Ugurcan's IP (Office)
     - "70.120.124.173"    # Chad's IP
     ## Servers
     - "44.199.103.174"    # Dev Server

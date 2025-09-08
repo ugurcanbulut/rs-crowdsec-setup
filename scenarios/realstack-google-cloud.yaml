@@ -1,8 +1,11 @@
 type: leaky
 name: realstack/google-cloud-asn
-description: "Block Google datacenter IPs (ASN 396982) except legitimate Google crawlers"
+description: "Block Google datacenter IPs (multiple ASNs) except legitimate Google crawlers"
 filter: |
-  evt.Meta.ASNNumber == "396982" &&
+  (
+    evt.Meta.ASNNumber == "396982" ||
+    evt.Meta.ASNNumber == "139070"
+  ) &&
   !(
     evt.Meta.http_user_agent matches "(?i).*Googlebot.*" ||
     evt.Meta.http_user_agent matches "(?i).*AdsBot-Google.*" ||
@@ -11,10 +14,19 @@ filter: |
     evt.Meta.http_user_agent matches "(?i).*GoogleProducer.*" ||
     evt.Meta.http_user_agent matches "(?i).*Google-Read-Aloud.*" ||
     evt.Meta.http_user_agent matches "(?i).*Google-PhysicalWeb.*" ||
-    evt.Meta.http_user_agent matches "(?i).*GoogleOther.*"
+    evt.Meta.http_user_agent matches "(?i).*GoogleOther.*" ||
+    evt.Meta.http_user_agent matches "(?i).*Google-InspectionTool.*" ||
+    evt.Meta.http_user_agent matches "(?i).*Google-SafetyCheck.*" ||
+    evt.Meta.http_user_agent matches "(?i).*Google-SearchConsole.*" ||
+    evt.Meta.http_user_agent matches "(?i).*Google-PageSpeed.*" ||
+    evt.Meta.http_user_agent matches "(?i).*FeedFetcher-Google.*" ||
+    evt.Meta.http_user_agent matches "(?i).*DuplexWeb-Google.*" ||
+    evt.Meta.http_user_agent matches "(?i).*GoogleWebLight.*" ||
+    evt.Meta.http_user_agent matches "(?i).*Chrome-Lighthouse.*" ||
+    evt.Meta.http_user_agent matches "(?i).*Google.*Bot.*"
   )
 capacity: 1
-leakspeed: 1m
+leakspeed: 10s
 groupby: "evt.Meta.source_ip"
 blackhole: 2m
 labels:

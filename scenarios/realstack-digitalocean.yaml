@@ -3,7 +3,7 @@ name: realstack/digitalocean-asn
 description: "Block DigitalOcean IPs (ASN 14061)"
 filter: evt.Meta.ASNNumber == "14061" || evt.Meta.ASNOrg == "DIGITALOCEAN-ASN"
 capacity: 1
-leakspeed: 1m
+leakspeed: 10s
 groupby: "evt.Meta.source_ip"
 blackhole: 2m
 labels:
