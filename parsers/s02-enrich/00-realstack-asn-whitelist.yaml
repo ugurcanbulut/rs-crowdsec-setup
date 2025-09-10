@@ -1,0 +1,8 @@
+name: realstack/asn-whitelist
+description: "Whitelist trusted ASNs (Autonomous System Numbers)"
+whitelist:
+  reason: "Trusted ASN ranges we never want banned"
+  expression:
+    # BunnyCDN - covers all their edge servers automatically
+    - "evt.Meta.ASNNumber == '200325'"
+    - "evt.Meta.ASNOrg contains 'BUNNYWAY'"
