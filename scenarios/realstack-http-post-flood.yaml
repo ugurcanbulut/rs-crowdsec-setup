@@ -1,0 +1,18 @@
+type: leaky
+name: realstack/http-post-flood
+description: "Detect IPs sending more than 20 POST requests in 1 minute"
+filter: evt.Parsed.request startsWith "POST"
+capacity: 20           # threshold
+leakspeed: 1m          # over 1 minute
+groupby: "evt.Meta.source_ip"
+blackhole: 10m         # optional, immediate short ban
+labels:
+  confidence: 1
+  spoofable: 0
+  classification:
+    - attack.T1499  # DDoS / flooding
+  behavior: "http:flood"
+  label: "POST flood"
+  service: http
+  remediation: true
+  duration: "4h"

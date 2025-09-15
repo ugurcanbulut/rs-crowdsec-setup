@@ -35,14 +35,3 @@ filenames:
 labels:
   type: syslog
   service: ssh
-
-# -----------------------
-# PHP-FPM logs (RunCloud default)
-# -----------------------
----
-filenames:
-  - /home/*/logs/php/*error*.log
-labels:
-  type: php
-  service: fpm
-  log_type: error

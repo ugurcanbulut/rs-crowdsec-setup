@@ -5,6 +5,7 @@ whitelist:
   ip:
     ## People
     - "86.126.139.240"    # Ugurcan's IP (Office)
+    - "86.121.7.16"       # Ugurcan's IP (Home)
     - "70.120.124.173"    # Chad's IP
     ## Servers
     - "44.199.103.174"    # Dev Server
