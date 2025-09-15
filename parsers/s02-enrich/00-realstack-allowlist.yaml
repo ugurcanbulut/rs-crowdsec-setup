@@ -16,3 +16,5 @@ whitelist:
     - "34.193.215.250"    # Shared Box 1
     - "3.232.122.217"     # Shared Box 2
     - "98.87.178.129"     # Shared Box 3
+    ## MOP Corporate Network
+    - "208.72.16.107"

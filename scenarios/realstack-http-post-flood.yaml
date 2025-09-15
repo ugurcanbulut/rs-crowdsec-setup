@@ -1,7 +1,7 @@
 type: leaky
 name: realstack/http-post-flood
-description: "Detect IPs sending more than 20 POST requests in 1 minute"
-filter: evt.Parsed.request startsWith "POST"
+description: "Detect IPs sending more than 20 POST requests in 1 minute (excludes WordPress API endpoints)"
+filter: evt.Parsed.request startsWith "POST" and not (evt.Parsed.http_path contains "/wp-json/v1")
 capacity: 20           # threshold
 leakspeed: 1m          # over 1 minute
 groupby: "evt.Meta.source_ip"
