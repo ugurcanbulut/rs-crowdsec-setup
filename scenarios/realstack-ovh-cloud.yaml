@@ -1,0 +1,18 @@
+type: leaky
+name: realstack/ovh-asn
+description: "Block OVH IPs"
+filter: evt.Meta.ASNNumber == "16276" || evt.Meta.ASNOrg == "OVH SAS"
+capacity: 1
+leakspeed: 10s
+groupby: "evt.Meta.source_ip"
+blackhole: 2m
+labels:
+  confidence: 1
+  spoofable: 0
+  classification:
+    - attack.T1583.006  # Acquire Infrastructure: Web Services
+    - attack.T1190      # Exploit Public-Facing Application
+  behavior: "http:abuse-cloud-provider"
+  label: "OVH ASN Abuse"
+  service: http
+  remediation: true

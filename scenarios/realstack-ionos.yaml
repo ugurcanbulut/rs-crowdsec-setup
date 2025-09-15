@@ -1,0 +1,18 @@
+type: leaky
+name: realstack/ionos-asn
+description: "Block IONOS IPs"
+filter: evt.Meta.ASNNumber == "8560" || evt.Meta.ASNOrg == "IONOS SE"
+capacity: 1
+leakspeed: 10s
+groupby: "evt.Meta.source_ip"
+blackhole: 2m
+labels:
+  confidence: 1
+  spoofable: 0
+  classification:
+    - attack.T1583.006  # Acquire Infrastructure: Web Services
+    - attack.T1190      # Exploit Public-Facing Application
+  behavior: "http:abuse-cloud-provider"
+  label: "IONOS ASN Abuse"
+  service: http
+  remediation: true
