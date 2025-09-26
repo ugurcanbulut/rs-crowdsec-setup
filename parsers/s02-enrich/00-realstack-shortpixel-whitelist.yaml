@@ -1,0 +1,14 @@
+name: realstack/shortpixel-ip-whitelist
+description: "Whitelist ShortPixel server IPs"
+whitelist:
+  reason: "ShortPixel servers"
+  ip:
+    - "136.243.103.55"
+    - "176.9.77.187"
+    - "176.9.21.94"
+    - "176.9.21.54"
+    - "23.88.6.90"
+    - "188.40.16.97"
+    - "5.161.48.189"
+    - "5.78.136.110"
+    - "5.161.47.113"
