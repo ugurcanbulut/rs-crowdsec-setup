@@ -1,0 +1,32 @@
+type: leaky
+name: realstack/country-blocking
+description: "Block traffic from specified countries"
+filter: |
+  evt.Meta.source_ip != nil &&
+  evt.Meta.IsoCode in [
+    "CN", "RU", "KP", "IR",
+    "BD", "BR", "VN", "IN",
+    "ZA", "GH", "NG", "BA",
+    "UA", "BY", "ID", "TH",
+    "MY", "KZ", "UZ", "SV",
+    "EG", "MA", "TM", "TJ",
+    "AF", "LV", "SY", "VE",
+    "IQ", "MM", "KH", "HN",
+    "BO", "MN", "DZ", "ZW",
+    "NI", "RS", "PE", "MD",
+    "AM"
+  ]
+capacity: 1
+leakspeed: 1s
+groupby: "evt.Meta.source_ip"
+blackhole: 24h
+labels:
+  confidence: 10
+  spoofable: 0
+  classification:
+    - attack.T1583.001  # Acquire Infrastructure: Domains
+    - attack.T1190      # Exploit Public-Facing Application
+  behavior: "http:country-blocked"
+  label: "Blocked Country: {{evt.Meta.IsoCode}}"
+  service: http
+  remediation: true
